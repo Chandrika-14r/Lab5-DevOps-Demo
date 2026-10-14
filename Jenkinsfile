@@ -1,7 +1,9 @@
 
 pipeline {
     agent any
-
+    environment {
+    PATH+DOCKER = 'C:\\Users\\HP\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin'
+    }
     stages {
         stage('Checkout Source') {
             steps {

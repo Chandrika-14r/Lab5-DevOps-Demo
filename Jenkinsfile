@@ -1,9 +1,11 @@
 
 pipeline {
     agent any
+
     environment {
-    PATH+DOCKER = 'C:\\Users\\HP\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin'
+        DOCKER_CLI = 'C:/Users/HP/AppData/Local/Programs/DockerDesktop/resources/bin/docker.exe'
     }
+
     stages {
         stage('Checkout Source') {
             steps {
@@ -13,20 +15,20 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                bat 'docker build -t lab5-devops-demo:1.0 .'
+                bat '"%DOCKER_CLI%" build -t lab5-devops-demo:1.0 .'
             }
         }
 
         stage('Verify Docker Image') {
             steps {
-                bat 'docker image inspect lab5-devops-demo:1.0'
+                bat '"%DOCKER_CLI%" image inspect lab5-devops-demo:1.0'
             }
         }
 
         stage('Deploy Application') {
             steps {
-                bat 'docker rm -f lab5-web 2>NUL || exit /b 0'
-                bat 'docker run -d --name lab5-web -p 8082:80 lab5-devops-demo:1.0'
+                bat '"%DOCKER_CLI%" rm -f lab5-web 2>NUL || exit /b 0'
+                bat '"%DOCKER_CLI%" run -d --name lab5-web -p 8082:80 lab5-devops-demo:1.0'
             }
         }
 
